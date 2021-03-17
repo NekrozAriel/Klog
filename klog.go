@@ -11,9 +11,9 @@ import (
 var logger *log.Logger
 
 // NewLog 写入init()内以使用。log文件会输出至当前目录下。
-func NewKlog(fileName string) *log.Logger {
-	fileTime := fmtTime()
-	file, err := os.OpenFile(fmt.Sprint("./", fileName, fileTime, ".log"), os.O_CREATE|os.O_WRONLY|os.O_APPEND, os.ModePerm)
+func NewKlog(fName string, t time.Time) *log.Logger {
+	fTime := fmtTime(t)
+	file, err := os.OpenFile(fmt.Sprint("./", fName, fTime, ".log"), os.O_CREATE|os.O_WRONLY|os.O_APPEND, os.ModePerm)
 	if err != nil {
 		return nil
 	}
@@ -46,8 +46,8 @@ func Pncf(format string, v ...interface{}) {
 }
 
 // fmtTime 格式化当前时间，获取标题需要的时间格式
-func fmtTime() string {
-	return fmt.Sprintf("%d%02d%02d%02d%02d%02d", time.Now().Year(),
-		time.Now().Month(), time.Now().Day(), time.Now().Hour(),
-		time.Now().Minute(), time.Now().Second())
+func fmtTime(t time.Time) string {
+	return fmt.Sprintf("%d%02d%02d%02d%02d%02d", t.Year(),
+		t.Month(), t.Day(), t.Hour(),
+		t.Minute(), t.Second())
 }
