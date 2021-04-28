@@ -23,24 +23,24 @@ func NewKlog(fName string, t time.Time) {
 	logger.SetOutput(mw)
 }
 
-func Prtln(s string) {
-	logger.Println(s)
+func Prtln(v ...interface{}) {
+	logger.Println(v...)
 }
 
 func Prtf(format string, v ...interface{}) {
 	logger.Printf(format, v...)
 }
 
-func Ftlln(s string) {
-	logger.Fatalln(s)
+func Ftlln(v ...interface{}) {
+	logger.Fatalln(v...)
 }
 
 func Ftlf(format string, v ...interface{}) {
 	logger.Fatalf(format, v...)
 }
 
-func Pncln(s string) {
-	logger.Panicln(s)
+func Pncln(v ...interface{}) {
+	logger.Panicln(v...)
 }
 
 func Pncf(format string, v ...interface{}) {
