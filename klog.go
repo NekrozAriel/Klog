@@ -12,16 +12,15 @@ import (
 var logger *log.Logger
 
 // NewLog 写入init()内以使用。log文件会输出至控制台和当前目录下。
-func NewKlog(fName string, t time.Time) *log.Logger {
+func NewKlog(fName string, t time.Time) {
 	fTime := fmtTime(t)
 	file, err := os.OpenFile(fmt.Sprint("./", fName, fTime, ".log"), os.O_CREATE|os.O_WRONLY|os.O_APPEND, os.ModePerm)
 	if err != nil {
-		return nil
+		panic("创建.log文件失败。")
 	}
 	logger = log.New(file, "", log.LstdFlags|log.Llongfile)
 	mw := io.MultiWriter(os.Stdout, file)
-	log.SetOutput(mw)
-	return logger
+	logger.SetOutput(mw)
 }
 
 func Prtln(s string) {
