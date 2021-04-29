@@ -24,27 +24,33 @@ func NewKlog(fName string, t time.Time) {
 }
 
 func Prtln(v ...interface{}) {
-	logger.Println(v...)
+	logger.Output(2, fmt.Sprintln(v...))
 }
 
 func Prtf(format string, v ...interface{}) {
-	logger.Printf(format, v...)
+	logger.Output(2, fmt.Sprintf(format, v...))
 }
 
 func Ftlln(v ...interface{}) {
-	logger.Fatalln(v...)
+	logger.Output(2, fmt.Sprintln(v...))
+	os.Exit(1)
 }
 
 func Ftlf(format string, v ...interface{}) {
-	logger.Fatalf(format, v...)
+	logger.Output(2, fmt.Sprintf(format, v...))
+	os.Exit(1)
 }
 
 func Pncln(v ...interface{}) {
-	logger.Panicln(v...)
+	s := fmt.Sprintln(v...)
+	logger.Output(2, s)
+	panic(s)
 }
 
 func Pncf(format string, v ...interface{}) {
-	logger.Panicf(format, v...)
+	s := fmt.Sprintf(format, v...)
+	logger.Output(2, s)
+	panic(s)
 }
 
 // fmtTime 格式化当前时间，获取标题需要的时间格式
