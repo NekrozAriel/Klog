@@ -1,3 +1,4 @@
+// Package klog 简单log输出 for test
 package klog
 
 import (
@@ -11,7 +12,9 @@ import (
 // logger 输出至目录下的.log文件，简单测试用。
 var logger *log.Logger
 
-// NewLog 写入init()内以使用。log文件会输出至控制台和当前目录下。
+var mw io.Writer
+
+// NewKlog 写入init()内以使用。log文件会输出至控制台和当前目录下。
 func NewKlog(fName string, t time.Time) {
 	fTime := fmtTime(t)
 	file, err := os.OpenFile(fmt.Sprint("./", fName, fTime, ".log"), os.O_CREATE|os.O_WRONLY|os.O_APPEND, os.ModePerm)
@@ -19,8 +22,16 @@ func NewKlog(fName string, t time.Time) {
 		panic("创建.log文件失败。")
 	}
 	logger = log.New(file, "", log.LstdFlags|log.Llongfile)
-	mw := io.MultiWriter(os.Stdout, file)
+	mw = io.MultiWriter(os.Stdout, file)
 	logger.SetOutput(mw)
+}
+
+func SetOutput(w io.Writer) {
+	logger.SetOutput(w)
+}
+
+func GetOutput() io.Writer {
+	return mw
 }
 
 func Prtln(v ...interface{}) {
